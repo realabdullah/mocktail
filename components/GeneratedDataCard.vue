@@ -1,7 +1,11 @@
 <script lang="ts" setup>
+const props = defineProps<{
+  data: Ref<any>;
+}>();
+
 const isCopied = ref(false);
 const copyGeneratedData = () => {
-  navigator.clipboard.writeText(generatedData.value);
+  navigator.clipboard.writeText(props.data);
   isCopied.value = true;
   setTimeout(() => {
     isCopied.value = false;
@@ -19,7 +23,7 @@ const downloadGeneratedData = () => {
 
 <template>
   <UCard>
-    <h1 class="text-2xl font-bold text-gray-800 mb-2">
+    <h1 class="text-2xl font-bold text-gray-800 mb-2 dark:text-gray-200">
       Generated Mock Data 🎉
     </h1>
 

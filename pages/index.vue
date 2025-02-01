@@ -41,7 +41,7 @@ const generatedData = ref("");
         </template>
       </UCard>
 
-      <GeneratedDataCard :data="generatedData" />
+      <GeneratedDataCard v-if="generatedData" :data="generatedData" />
     </div>
 
     <p

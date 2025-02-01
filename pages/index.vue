@@ -41,7 +41,11 @@ const generatedData = ref("");
         </template>
       </UCard>
 
-      <GeneratedDataCard v-if="generatedData" :data="generatedData" />
+      <template v-if="generatedData">
+        <UDivider label="🤝" />
+
+        <GeneratedDataCard :data="generatedData" />
+      </template>
     </div>
 
     <p

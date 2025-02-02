@@ -1,75 +1,92 @@
-# Nuxt Minimal Starter
+# mockTail 🪄
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+🍸 Transform TypeScript type definitions into instant mock data using AI.
+
+## Overview
+
+mockTail 🪄 is a web-based tool that generates mock data from TypeScript type definitions using AI models (OpenAI or Google's Gemini). Simply paste your type definitions, and get test data for your development workflow instantly.
+
+## Features
+
+- **AI-Powered Generation**: Choose between OpenAI or Gemini for mock data generation
+- **Instant Type Conversion**: Paste your TypeScript types and get mock data immediately
+- **Browser-Based**: No installation required - works directly in your web browser
+- **Type-Safe Output**: Generated mock data that follows your type definitions
+- **Copy to Clipboard**: Easily copy the generated mock data to use in your projects
 
 ## Setup
 
-Make sure to install dependencies:
-
+1. Clone the repository:
 ```bash
-# npm
+git clone https://github.com/realabdullah/mocktail.git
+cd mocktail
+```
+
+2. Install dependencies:
+```bash
 npm install
-
-# pnpm
-pnpm install
-
-# yarn
+# or
 yarn install
-
-# bun
-bun install
+# or
+pnpm install
 ```
 
-## Development Server
+3. Configure environment variables:
 
-Start the development server on `http://localhost:3000`:
+Create a `.env` file in the root directory:
+```env
+OPENAI_API_KEY=your_openai_api_key_here
+GEMINI_API_KEY=your_gemini_api_key_here
+```
 
+> Note: You can use either one or both AI models. The app will enable/disable models based on available API keys.
+
+4. Start the development server:
 ```bash
-# npm
 npm run dev
-
-# pnpm
-pnpm dev
-
-# yarn
+# or
 yarn dev
-
-# bun
-bun run dev
+# or
+pnpm dev
 ```
 
-## Production
+5. Open [http://localhost:3000](http://localhost:3000) in your browser
 
-Build the application for production:
+## Usage
 
-```bash
-# npm
-npm run build
+1. Visit the web app
+2. Paste your TypeScript type definition
+3. Click "Generate Mock Data"
+4. Get your mock data
 
-# pnpm
-pnpm build
+Example:
 
-# yarn
-yarn build
+```typescript
+// Input type
+type User = {
+  name: string;
+  age: number;
+  email: string;
+  isActive: boolean;
+}[];
 
-# bun
-bun run build
+// Generated output
+[
+  {
+    "name": "John Doe",
+    "age": 28,
+    "email": "john.doe@example.com",
+    "isActive": true
+  },
+  {
+    "name": "Jane Smith",
+    "age": 32,
+    "email": "jane.smith@example.com",
+    "isActive": false
+  }
+]
 ```
 
-Locally preview production build:
+---
 
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+Built by [ABD](https://abdspace.xyz)

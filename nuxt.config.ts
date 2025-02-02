@@ -20,7 +20,9 @@ export default defineNuxtConfig({
       ],
     },
   },
-  modules: ["@nuxt/ui"],
+  css: ["~/assets/css/main.css"],
+  modules: ["@nuxt/ui", "@nuxt/fonts"],
   compatibilityDate: "2024-11-01",
   devtools: { enabled: true },
+  fonts: { families: [{ name: "Inter", provider: "google", global: true }] },
 });

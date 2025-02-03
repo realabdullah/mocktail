@@ -23,7 +23,7 @@ export default defineAppConfig({
       },
     },
     formGroup: {
-      error: "whitespace-nowrap absolute z-10",
+      error: "whitespace-nowrap",
     },
   },
 });

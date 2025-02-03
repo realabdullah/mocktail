@@ -7,10 +7,14 @@ export const useGenerate = () => {
     agent: "gemini",
   });
 
+  const apiKeys = reactive({ openai: "", gemini: "" });
+
   const generatedData = ref("");
   const error = reactive({ title: "", desc: "" });
   const isGenerating = ref(false);
   const isErrorModalOpen = ref(false);
+  const isSetKeysModalOpen = ref(false);
+
   const generateMockData = async () => {
     try {
       isGenerating.value = true;
@@ -20,7 +24,7 @@ export const useGenerate = () => {
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: { ...state },
+          body: { ...state, apiKeys },
         }
       );
 
@@ -42,6 +46,14 @@ export const useGenerate = () => {
     }
   };
 
+  const setApiKeys = (keys: { openai: string; gemini: string }) => {
+    const { openai, gemini } = keys;
+    apiKeys.gemini = gemini;
+    apiKeys.openai = openai;
+
+    isSetKeysModalOpen.value = false;
+  };
+
   watch(
     () => isErrorModalOpen.value,
     (isOpen) => {
@@ -54,10 +66,13 @@ export const useGenerate = () => {
 
   return {
     state,
+    apiKeys,
     error,
     generatedData,
     isGenerating,
     isErrorModalOpen,
+    isSetKeysModalOpen,
     generateMockData,
+    setApiKeys,
   };
 };

@@ -15,6 +15,7 @@ defineProps<{
 
 defineEmits<{
   (event: "generate"): void;
+  (event: "add-keys"): void;
 }>();
 
 const state = defineModel<FormState>({ default: {} });
@@ -47,34 +48,46 @@ const isStateValid = computed(() => {
       </template>
 
       <div class="space-y-3">
-        <div class="flex items-center gap-4 w-full max-w-56">
-          <UFormGroup name="agent">
-            <USelectMenu
-              v-model="state.agent"
-              :options="AI_AGENTS"
-              size="lg"
-              value-attribute="value"
-            >
-              <template #leading>
-                <UIcon :name="ICONS_MAP[state.agent]" class="w-5 h-5" />
-              </template>
+        <div class="flex items gap-3 justify-between">
+          <div class="flex items-center gap-4 w-full max-w-56">
+            <UFormGroup name="agent">
+              <USelectMenu
+                v-model="state.agent"
+                :options="AI_AGENTS"
+                size="lg"
+                value-attribute="value"
+              >
+                <template #leading>
+                  <UIcon :name="ICONS_MAP[state.agent]" class="w-5 h-5" />
+                </template>
 
-              <template #option="{ option }">
-                <UIcon :name="option.icon" class="w-5 h-5" />
-                <span class="ml-2">{{ option.label }}</span>
-              </template>
-            </USelectMenu>
-          </UFormGroup>
+                <template #option="{ option }">
+                  <UIcon :name="option.icon" class="w-5 h-5" />
+                  <span class="ml-2">{{ option.label }}</span>
+                </template>
+              </USelectMenu>
+            </UFormGroup>
 
-          <UFormGroup name="count">
-            <UInput
-              v-model="state.count"
-              variant="outline"
-              placeholder="e.g. 10"
-              size="lg"
-              type="number"
-            />
-          </UFormGroup>
+            <UFormGroup name="count">
+              <UInput
+                v-model="state.count"
+                variant="outline"
+                placeholder="e.g. 10"
+                size="lg"
+                type="number"
+              />
+            </UFormGroup>
+          </div>
+
+          <UButton
+            icon="i-heroicons-plus"
+            size="sm"
+            variant="ghost"
+            color="black"
+            label="Add API keys"
+            :trailing="false"
+            @click="$emit('add-keys')"
+          />
         </div>
 
         <UFormGroup name="typeDefinition">

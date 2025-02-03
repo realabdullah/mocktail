@@ -1,11 +1,14 @@
 <script setup lang="ts">
 const {
   state,
+  apiKeys,
   error,
   generatedData,
   isGenerating,
   isErrorModalOpen,
+  isSetKeysModalOpen,
   generateMockData,
+  setApiKeys,
 } = useGenerate();
 </script>
 
@@ -18,9 +21,8 @@ const {
         v-model="state"
         :is-generating="isGenerating"
         @generate="generateMockData"
+        @add-keys="isSetKeysModalOpen = true"
       />
-
-      <ErrorModal v-model="isErrorModalOpen" :error="error" />
 
       <template v-if="generatedData">
         <UDivider label="🤝" />
@@ -35,6 +37,14 @@ const {
       Built by
       <a href="https://abdspace.xyz" target="_blank" class="font-bold">ABD</a>
     </p>
+
+    <!-- MODALS -->
+    <SetApiKeys
+      v-model="isSetKeysModalOpen"
+      :api-keys="apiKeys"
+      @set-keys="setApiKeys"
+    />
+    <ErrorModal v-model="isErrorModalOpen" :error="error" />
   </div>
 </template>
 

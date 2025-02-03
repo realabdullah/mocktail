@@ -11,14 +11,10 @@ export default defineEventHandler(async (event): Promise<MockDataResponse> => {
 
   try {
     if (agent === "gemini") {
-      const geminiService = new GeminiService(
-        process.env.GEMINI_API_KEY as string
-      );
+      const geminiService = new GeminiService(payload.apiKeys.gemini);
       response = await geminiService.generateMockData(typeDefinition, numItems);
     } else {
-      const openAIService = new OpenAIService(
-        process.env.OPENAI_API_KEY as string
-      );
+      const openAIService = new OpenAIService(payload.apiKeys.openai);
       response = await openAIService.generateMockData(typeDefinition, numItems);
     }
   } catch (err) {

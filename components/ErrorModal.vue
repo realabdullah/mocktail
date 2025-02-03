@@ -1,6 +1,4 @@
 <script lang="ts" setup>
-import { formatString } from "@/utils";
-
 defineProps<{
   error: {
     title: string;

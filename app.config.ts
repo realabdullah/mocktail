@@ -8,5 +8,22 @@ export default defineAppConfig({
         },
       },
     },
+    select: {
+      color: {
+        white: {
+          outline: "focus:ring-slate-500 dark:focus:ring-slate-400",
+        },
+      },
+    },
+    input: {
+      color: {
+        white: {
+          outline: "focus:ring-slate-500 dark:focus:ring-slate-400",
+        },
+      },
+    },
+    formGroup: {
+      error: "whitespace-nowrap absolute z-10",
+    },
   },
 });

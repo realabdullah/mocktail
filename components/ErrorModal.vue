@@ -17,7 +17,7 @@ const isOpen = defineModel<boolean>({ default: true });
       <UCard>
         <template #header>
           <h1 class="text-2xl font-bold text-gray-800 mb-2 dark:text-gray-200">
-            {{ formatString(error.title) }}
+            {{ error.title }}
           </h1>
         </template>
         <div class="space-y-3">

@@ -9,7 +9,6 @@ const formattedJson = computed(() => {
     const jsonData = JSON.parse(jsonString);
     return JSON.stringify(jsonData, null, 2);
   } catch (error) {
-    console.log("error: ", error);
     return String(props.data).replace(/```json\n|\n```/g, "");
   }
 });
@@ -35,7 +34,6 @@ const downloadGeneratedData = () => {
     a.click();
     URL.revokeObjectURL(url);
   } catch (error) {
-    console.log("error: ", error);
   } finally {
     isDownloading.value = false;
   }

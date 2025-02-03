@@ -36,7 +36,6 @@ export const formatString = (errorCode: string): string => {
 };
 
 export const parseErrorResponse = (error: ErrorResponse) => {
-  console.log("Error:", error);
   const errorDetails: ErrorDetail[] = [
     error.error || {},
     ...(error.errorDetails || []),

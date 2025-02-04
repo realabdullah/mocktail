@@ -31,17 +31,7 @@ yarn install
 pnpm install
 ```
 
-3. Configure environment variables:
-
-Create a `.env` file in the root directory:
-```env
-OPENAI_API_KEY=your_openai_api_key_here
-GEMINI_API_KEY=your_gemini_api_key_here
-```
-
-> Note: You can use either one or both AI models. The app will enable/disable models based on available API keys.
-
-4. Start the development server:
+3. Start the development server:
 ```bash
 npm run dev
 # or
@@ -50,14 +40,16 @@ yarn dev
 pnpm dev
 ```
 
-5. Open [http://localhost:3000](http://localhost:3000) in your browser
+4. Open [http://localhost:3000](http://localhost:3000) in your browser
 
 ## Usage
 
 1. Visit the web app
-2. Paste your TypeScript type definition
-3. Click "Generate Mock Data"
-4. Get your mock data
+2. Select AI agent to use
+3. Add API key
+4. Paste your TypeScript type definition
+5. Click "Generate Mock Data"
+6. Get your mock data
 
 Example:
 

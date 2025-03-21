@@ -1,4 +1,4 @@
-import { createOpenAIMessage } from "../utils";
+import { createOpenAIMessage, generateSchema } from "../utils";
 import OpenAI from "openai";
 
 export class OpenAIService {
@@ -10,29 +10,14 @@ export class OpenAIService {
 
   async generateMockData(
     typeDefinition: string,
-    numItems: number
+    count: number
   ): Promise<string> {
     try {
+      const schema = generateSchema(typeDefinition, count);
       const completion = await this.client.chat.completions.create({
         model: "gpt-4o-mini",
-        messages: createOpenAIMessage(typeDefinition, numItems),
-        response_format: {
-          type: "json_schema",
-          json_schema: {
-            name: "typescript_schema",
-            schema: {
-              type: "object",
-              properties: {
-                mockData: {
-                  description:
-                    "Generated mock data based on the TypeScript type",
-                  type: "string",
-                },
-              },
-              required: ["mockData"],
-            },
-          },
-        },
+        messages: createOpenAIMessage(typeDefinition, count),
+        response_format: schema as any,
       });
 
       return completion.choices[0].message.content as string;

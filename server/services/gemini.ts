@@ -1,9 +1,5 @@
-import { createPrompt } from "../utils";
-import {
-  GoogleGenerativeAI,
-  ResponseSchema,
-  SchemaType,
-} from "@google/generative-ai";
+import { createPrompt, generateSchema } from "../utils";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
 export class GeminiService {
   private client: GoogleGenerativeAI;
@@ -14,39 +10,23 @@ export class GeminiService {
 
   async generateMockData(
     typeDefinition: string,
-    numItems: number
+    count: number
   ): Promise<string> {
     try {
-      const schema = {
-        description: "Generated mock data based on the TypeScript type",
-        type: SchemaType.ARRAY || SchemaType.OBJECT,
-        items: {
-          type: SchemaType.STRING || SchemaType.OBJECT,
-          properties: {
-            mockData: {
-              description: "Generated mock data based on the TypeScript type",
-              type: "string",
-            },
-          },
-          required: ["mockData"],
-        },
-      };
+      const schema = generateSchema(typeDefinition, count);
 
       const model = this.client.getGenerativeModel({
-        model: "gemini-1.5-flash",
-        systemInstruction: createPrompt(typeDefinition, numItems),
+        model: "gemini-2.0-flash",
+        systemInstruction: createPrompt(typeDefinition, count),
         generationConfig: {
           responseMimeType: "application/json",
-          responseSchema: schema as ResponseSchema,
+          responseSchema: schema,
         },
       });
 
       const completion = await model.generateContent({
         contents: [{ role: "user", parts: [{ text: typeDefinition }] }],
-        generationConfig: {
-          maxOutputTokens: 1000,
-          temperature: 0.1,
-        },
+        generationConfig: { maxOutputTokens: 20000, temperature: 0.1 },
       });
 
       return completion.response.text();

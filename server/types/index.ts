@@ -1,6 +1,6 @@
 export type Payload = {
   typeDefinition: string;
-  numItems: number;
+  count: number;
   agent: "openai" | "gemini";
   apiKeys: {
     openai: string;

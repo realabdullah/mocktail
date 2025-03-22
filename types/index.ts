@@ -35,3 +35,13 @@ export type ErrorResponse = {
   errorDetails?: ErrorDetail[];
   headers?: Record<string, string>;
 };
+
+export interface IHistory {
+  id: number;
+  title: string;
+  data: string;
+  timestamp: number;
+  color: string;
+  starred: boolean;
+  tags: string[];
+}

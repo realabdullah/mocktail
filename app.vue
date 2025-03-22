@@ -1,5 +1,11 @@
+<script setup lang="ts"></script>
+
 <template>
-  <div>
-    <NuxtPage />
-  </div>
+  <SidebarProvider>
+    <AppSidebar />
+    <main class="w-full bg-gray-50 dark:bg-gray-900">
+      <AppHeader />
+      <NuxtPage />
+    </main>
+  </SidebarProvider>
 </template>

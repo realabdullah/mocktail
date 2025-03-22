@@ -25,7 +25,7 @@ const {
       <template v-if="generatedData">
         <UDivider label="🤝" />
 
-        <GeneratedDataCard :data="generatedData" />
+        <AppCardData :entry="generatedData" usage="generated" />
       </template>
     </div>
 

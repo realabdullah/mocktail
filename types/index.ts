@@ -37,11 +37,27 @@ export type ErrorResponse = {
 };
 
 export interface IHistory {
-  id: number;
+  id: string;
   title: string;
   data: string;
   timestamp: number;
   color: string;
   starred: boolean;
   tags: string[];
+}
+
+export type JsonValueType =
+  | "string"
+  | "number"
+  | "boolean"
+  | "null"
+  | "object"
+  | "array";
+
+export interface JsonViewerProps {
+  data: any;
+  rootLabel?: string;
+  level?: number;
+  path?: string;
+  expandAll?: boolean;
 }

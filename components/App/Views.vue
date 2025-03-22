@@ -16,9 +16,9 @@ const items = computed(() =>
 </script>
 
 <template>
-  <div class="p-6">
+  <div class="p-1 sm:p-6">
     <div v-if="selectedItem" class="max-w-3xl mx-auto">
-      <AppCardData :selectedItem="selectedItem" />
+      <AppCardData :entry="selectedItem" usage="saved" />
     </div>
 
     <div

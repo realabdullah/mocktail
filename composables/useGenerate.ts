@@ -1,4 +1,4 @@
-import type { ErrorResponse, FormState } from "@/types";
+import type { ErrorResponse, FormState, IHistory } from "@/types";
 
 export const useGenerate = () => {
   const state = reactive<FormState>({
@@ -9,7 +9,7 @@ export const useGenerate = () => {
 
   const apiKeys = reactive({ openai: "", gemini: "" });
 
-  const generatedData = ref("");
+  const generatedData = ref<IHistory>();
   const error = reactive({ title: "", desc: "" });
   const isGenerating = ref(false);
   const isErrorModalOpen = ref(false);
@@ -18,7 +18,7 @@ export const useGenerate = () => {
   const generateMockData = async () => {
     try {
       isGenerating.value = true;
-      generatedData.value = "";
+      generatedData.value = undefined;
       const data = await $fetch<{ response?: string; error?: string }>(
         "/api/generate",
         {
@@ -29,7 +29,14 @@ export const useGenerate = () => {
       );
 
       if (data?.response) {
-        generatedData.value = data.response;
+        const parsed = refineResponse(data.response) as IHistory;
+        const timestamp = Date.now();
+        generatedData.value = {
+          ...parsed,
+          id: crypto.randomUUID(),
+          timestamp,
+          starred: false,
+        };
       } else {
         const { title, description } = parseErrorResponse(
           data.error as ErrorResponse
@@ -40,7 +47,7 @@ export const useGenerate = () => {
       }
     } catch (error: unknown) {
       isErrorModalOpen.value = true;
-      generatedData.value = "";
+      generatedData.value = undefined;
     } finally {
       isGenerating.value = false;
     }

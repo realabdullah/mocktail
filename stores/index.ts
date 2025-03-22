@@ -1,28 +1,19 @@
+import { sampleJson } from "~/assets/constants";
 import type { IHistory } from "~/types";
 
 export const useStore = defineStore("store", () => {
   const mockHistoryItems = ref<IHistory[]>([
     {
-      id: 1,
+      id: "1",
       title: "User Profile",
-      data: JSON.stringify(
-        {
-          id: "64d4e2a0b8a7c3a9e4a6b5c1",
-          name: "John Doe",
-          email: "john@example.com",
-          role: "Admin",
-          createdAt: "2023-07-17T10:30:00.000Z",
-        },
-        null,
-        2
-      ),
+      data: JSON.stringify(sampleJson, null, 2),
       timestamp: new Date("2023-07-17T10:30:00.000Z").getTime(),
       color: "#4F46E5", // Indigo
       starred: true,
-      tags: ["user", "profile", "auth"],
+      tags: ["error", "error handling", "debugging", "api", "logging"],
     },
     {
-      id: 2,
+      id: "2",
       title: "Product List",
       data: JSON.stringify(
         [
@@ -39,7 +30,7 @@ export const useStore = defineStore("store", () => {
       tags: ["product", "inventory", "array"],
     },
     {
-      id: 3,
+      id: "3",
       title: "Task Interface",
       data: JSON.stringify(
         {
@@ -64,7 +55,7 @@ export const useStore = defineStore("store", () => {
       tags: ["task", "interface", "project"],
     },
     {
-      id: 4,
+      id: "4",
       title: "API Response",
       data: JSON.stringify(
         {
@@ -91,7 +82,7 @@ export const useStore = defineStore("store", () => {
       tags: ["api", "response", "pagination"],
     },
     {
-      id: 5,
+      id: "5",
       title: "Config Settings",
       data: JSON.stringify(
         {
@@ -133,7 +124,6 @@ export const useStore = defineStore("store", () => {
   const itemsByDate = computed(() => {
     const grouped: Record<string, typeof mockHistoryItems.value> = {};
 
-    // Group by year and month
     mockHistoryItems.value.forEach((item) => {
       const date = new Date(item.timestamp);
       const yearMonth = `${date.getFullYear()}-${date.getMonth() + 1}`;
@@ -142,7 +132,6 @@ export const useStore = defineStore("store", () => {
       grouped[yearMonth].push(item);
     });
 
-    // Sort by date (newest first)
     Object.keys(grouped).forEach((key) => {
       grouped[key].sort((a, b) => b.timestamp - a.timestamp);
     });
@@ -160,7 +149,6 @@ export const useStore = defineStore("store", () => {
     return Array.from(tags).sort();
   });
 
-  // Get all starred items
   const starredItems = computed(() => {
     return mockHistoryItems.value.filter((item) => item.starred);
   });
@@ -172,7 +160,6 @@ export const useStore = defineStore("store", () => {
   const selectedTag = ref("");
   const showStarredItems = ref(false);
 
-  // Filter items based on search query
   const filteredItems = computed(() => {
     if (!searchQuery.value) {
       if (selectedDate.value) {

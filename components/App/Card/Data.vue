@@ -1,20 +1,57 @@
 <script lang="ts" setup>
-import { formatDate } from "@/utils";
+import { formatDate, refineResponse } from "@/utils";
 import type { IHistory } from "~/types";
 
 const props = defineProps<{
-  selectedItem: IHistory;
+  entry: IHistory;
+  usage: "saved" | "generated";
 }>();
 
 const editingId = ref("");
-const editingTitle = ref(props.selectedItem?.title || "");
+const editingTitle = ref(props.entry?.title || "");
+
+const data = computed(() => refineResponse(props.entry.data) as IHistory);
+
+const activeTab = ref(0);
+const tabs = [
+  { label: "Tree View", slot: "tree-view" },
+  { label: "Raw JSON", slot: "raw-json" },
+];
+
+const isCopied = ref(false);
+const copyGeneratedData = () => {
+  navigator.clipboard.writeText(JSON.stringify(data.value.data, null, 2));
+  isCopied.value = true;
+  setTimeout(() => {
+    isCopied.value = false;
+  }, 1000);
+};
+
+const isDownloading = ref(false);
+const downloadGeneratedData = () => {
+  try {
+    isDownloading.value = true;
+    const blob = new Blob([JSON.stringify(data.value.data, null, 2)], {
+      type: "application/json",
+    });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `${data.value.title}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+  } catch (error) {
+  } finally {
+    isDownloading.value = false;
+  }
+};
 </script>
 
 <template>
   <UCard :ui="{ body: { padding: 'p-0 sm:p-0' } }" class="overflow-hidden">
-    <div class="p-4">
+    <div class="p-2 sm:p-4">
       <div
-        v-if="editingId === `${selectedItem.id}`"
+        v-if="editingId === entry.id"
         class="flex items-center space-x-2 mb-4"
       >
         <UInput v-model="editingTitle" class="flex-1 h-9" />
@@ -38,11 +75,11 @@ const editingTitle = ref(props.selectedItem?.title || "");
           <div class="flex items-center">
             <div
               class="w-3 h-3 rounded-full mr-2"
-              :style="`background-color: ${selectedItem.color}`"
+              :style="`background-color: ${entry.color}`"
             ></div>
-            <h3 class="text-xl font-semibold">{{ selectedItem.title }}</h3>
+            <h3 class="text-xl font-semibold">{{ entry.title }}</h3>
             <svg
-              v-if="selectedItem?.starred"
+              v-if="usage === 'saved' && entry?.starred"
               xmlns="http://www.w3.org/2000/svg"
               width="12"
               height="12"
@@ -60,19 +97,20 @@ const editingTitle = ref(props.selectedItem?.title || "");
             </svg>
           </div>
 
-          <div class="flex items-center mt-1">
+          <div class="flex items-center mt-1 flex-wrap gap-x-3 gap-y-2">
             <p class="text-sm text-gray-400">
-              {{ formatDate(new Date(selectedItem.timestamp)) }}
+              {{ formatDate(new Date(entry.timestamp)) }}
             </p>
             <div
-              v-if="selectedItem.tags.length > 0"
-              class="flex items-center ml-3 space-x-1"
+              v-if="entry.tags.length > 0"
+              class="flex items-center gap-1 flex-wrap"
             >
               <UBadge
-                v-for="(tag, index) in selectedItem.tags"
+                v-for="(tag, index) in entry.tags"
                 :key="index"
                 color="gray"
                 variant="solid"
+                class="whitespace-nowrap"
               >
                 {{ tag }}
               </UBadge>
@@ -80,13 +118,13 @@ const editingTitle = ref(props.selectedItem?.title || "");
           </div>
         </div>
 
-        <div class="flex space-x-2">
+        <div v-if="usage === 'saved'" class="flex space-x-2">
           <UButton
             variant="ghost"
             color="gray"
             icon="i-heroicons-pencil"
             size="xs"
-            @click="editingId = `${selectedItem.id}`"
+            @click="editingId = entry.id"
           />
           <UButton
             variant="ghost"
@@ -104,38 +142,43 @@ const editingTitle = ref(props.selectedItem?.title || "");
       </div>
 
       <UCard :ui="{ body: { padding: 'p-0 sm:p-0' } }" class="overflow-hidden">
-        <div
-          class="flex items-center justify-between bg-white dark:bg-gray-900 px-3 py-2 text-xs border-b border-gray-200 dark:border-gray-700"
-        >
-          <span :style="`color: ${selectedItem.color}`">JSON</span>
-        </div>
+        <template #header>
+          <UTabs v-model="activeTab" :items="tabs" />
+        </template>
 
-        <code>
-          <pre class="p-4 text-sm font-mono overflow-auto max-h-[500px]">
-            {{ selectedItem.data }}
+        <div class="px-4 py-5 sm:px-6 overflow-auto max-h-[600px]">
+          <AppJsonRenderer v-if="activeTab === 0" :data="data" />
+          <pre
+            v-else-if="activeTab === 1"
+            class="text-sm overflow-auto p-2 bg-gray-100 dark:bg-gray-800 rounded-md"
+          >
+            {{ JSON.stringify(data, null, 2) }}
           </pre>
-        </code>
+        </div>
       </UCard>
 
       <div class="flex justify-end mt-4 space-x-2">
         <UButton
           color="black"
           size="lg"
-          :variant="false ? 'outline' : 'solid'"
+          :variant="isCopied ? 'outline' : 'solid'"
           :icon="
-            false
+            isCopied
               ? 'i-heroicons-clipboard-document-check'
               : 'i-heroicons-clipboard-document'
           "
-          :label="false ? 'Copied!' : 'Copy'"
+          :label="isCopied ? 'Copied!' : 'Copy'"
+          @click="copyGeneratedData"
         />
+
         <UButton
           color="black"
           size="lg"
           icon="i-heroicons-arrow-path"
-          :label="false ? 'Downloading...' : 'Download'"
-          :loading="false"
-          :disabled="false"
+          :label="isDownloading ? 'Downloading...' : 'Download'"
+          :loading="isDownloading"
+          :disabled="isDownloading"
+          @click="downloadGeneratedData"
         />
       </div>
     </div>

@@ -3,6 +3,7 @@ import type {
   AIAgentOptions,
   ErrorDetail,
   ErrorResponse,
+  JsonValueType,
 } from "@/types";
 
 export const AI_AGENTS: AIAgentOptions[] = [
@@ -72,4 +73,45 @@ export const formatDate = (date: Date) => {
     month: "short",
     day: "numeric",
   }).format(date);
+};
+
+export const refineResponse = (response: unknown) => {
+  const responseStr =
+    typeof response === "string" ? response : JSON.stringify(response);
+
+  const cleaned = responseStr
+    .replace(/^```json\s*/, "")
+    .replace(/```$/, "")
+    .trim();
+
+  try {
+    return JSON.parse(cleaned);
+  } catch (error) {
+    return null;
+  }
+};
+
+export const getType = (value: any) => {
+  if (value === null) return "null";
+  if (Array.isArray(value)) return "array";
+  return typeof value as JsonValueType;
+};
+
+export const getTypeColor = (type: JsonValueType) => {
+  switch (type) {
+    case "string":
+      return "text-green-600 dark:text-green-400";
+    case "number":
+      return "text-blue-600 dark:text-blue-400";
+    case "boolean":
+      return "text-purple-600 dark:text-purple-400";
+    case "null":
+      return "text-gray-500 dark:text-gray-400";
+    case "object":
+      return "text-orange-600 dark:text-orange-400";
+    case "array":
+      return "text-yellow-600 dark:text-yellow-400";
+    default:
+      return "";
+  }
 };

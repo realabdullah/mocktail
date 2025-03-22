@@ -20,10 +20,18 @@ const items = [
 
 const components: any[] = [ViewsByDate, ViewsByTags, ViewsByStarred];
 
-const { showStarredItems, searchQuery } = storeToRefs(useStore());
+const { showStarredItems, searchQuery, selectedDate, selectedTag } =
+  storeToRefs(useStore());
 watch(
   () => activeTab.value,
   (val) => {
+    items.forEach(({ key }, index) => {
+      if (val !== index) {
+        if (key === "date") selectedDate.value = "";
+        if (key === "tag") selectedTag.value = "";
+        if (key === "starred") showStarredItems.value = false;
+      }
+    });
     if (val === 2) showStarredItems.value = true;
   }
 );

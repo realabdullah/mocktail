@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { formatDate } from "@/utils";
 import type { IHistory } from "~/types";
 
 const props = defineProps<{

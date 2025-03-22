@@ -1,7 +1,10 @@
 <script lang="ts" setup>
-const { allTags, selectedTag, tags } = storeToRefs(useStore());
+const { selectedItem, selectedTag, tags } = storeToRefs(useStore());
 
-onUnmounted(() => (selectedTag.value = ""));
+const selectTag = (tag: string) => {
+  selectedItem.value = undefined;
+  selectedTag.value = tag;
+};
 </script>
 
 <template>
@@ -15,7 +18,7 @@ onUnmounted(() => (selectedTag.value = ""));
           ? 'bg-white dark:bg-gray-800 shadow-sm'
           : 'hover:bg-white dark:hover:bg-gray-800',
       ]"
-      @click="selectedTag = tag.tag"
+      @click="selectTag(tag.tag)"
     >
       <div class="flex items-center">
         <UIcon

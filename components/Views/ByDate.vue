@@ -5,8 +5,6 @@ const selectDate = (date: string) => {
   selectedItem.value = undefined;
   selectedDate.value = date;
 };
-
-onUnmounted(() => (selectedDate.value = ""));
 </script>
 
 <template>

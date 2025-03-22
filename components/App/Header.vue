@@ -45,7 +45,7 @@ const backToGenerator = () => {
 
     <div class="flex items-center space-x-2">
       <UButton
-        v-if="selectedDate || selectedTag || showStarredItems"
+        v-if="selectedDate || selectedTag || showStarredItems || selectedItem || searchQuery"
         variant="outline"
         label="Back to Generator"
         color="gray"

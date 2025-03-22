@@ -1,7 +1,11 @@
 <script setup lang="ts">
-const { searchQuery, selectedDate, showStarredItems, selectedTag, selectedItem } = storeToRefs(
-  useStore()
-);
+const {
+  searchQuery,
+  selectedDate,
+  showStarredItems,
+  selectedTag,
+  selectedItem,
+} = storeToRefs(useStore());
 
 const isAppGeneratorVisible = computed(
   () =>
@@ -21,9 +25,8 @@ const isAppGeneratorVisible = computed(
     <AppViews v-if="!isAppGeneratorVisible" />
     <AppGenerator v-show="isAppGeneratorVisible" />
 
-    <p
-      class="fixed bottom-4 right-4 text-sm text-gray-400 dark:text-gray-600"
-    >
+    <p class="fixed bottom-4 right-4 text-sm text-gray-400 dark:text-gray-600">
+      <!--  bottom-9 sm: max-sm:rotate-90 -right-4 sm: -->
       Built by
       <a href="https://abdspace.xyz" target="_blank" class="font-bold">ABD</a>
     </p>

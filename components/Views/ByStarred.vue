@@ -1,9 +1,9 @@
 <script lang="ts" setup>
+import { formatDate } from "@/utils";
+
 const { starredItems, showStarredItems, selectedItem } = storeToRefs(
   useStore()
 );
-
-onUnmounted(() => (showStarredItems.value = false));
 </script>
 
 <template>

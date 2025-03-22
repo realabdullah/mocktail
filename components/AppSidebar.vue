@@ -5,6 +5,7 @@ import {
   SidebarFooter,
   SidebarGroup,
   SidebarHeader,
+  useSidebar,
 } from "@/components/ui/sidebar";
 import ViewsByDate from "@/components/Views/ByDate.vue";
 import ViewsByTags from "@/components/Views/ByTags.vue";
@@ -20,8 +21,14 @@ const items = [
 
 const components: any[] = [ViewsByDate, ViewsByTags, ViewsByStarred];
 
-const { showStarredItems, searchQuery, selectedDate, selectedTag } =
-  storeToRefs(useStore());
+const { isMobile, toggleSidebar } = useSidebar();
+const {
+  showStarredItems,
+  searchQuery,
+  selectedDate,
+  selectedTag,
+  selectedHistory,
+} = storeToRefs(useStore());
 watch(
   () => activeTab.value,
   (val) => {
@@ -32,7 +39,11 @@ watch(
         if (key === "starred") showStarredItems.value = false;
       }
     });
-    if (val === 2) showStarredItems.value = true;
+    if (val === 2) {
+      selectedHistory.value = undefined;
+      showStarredItems.value = true;
+      if (isMobile.value) toggleSidebar();
+    }
   }
 );
 </script>

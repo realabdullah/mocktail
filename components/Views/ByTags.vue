@@ -1,9 +1,13 @@
 <script lang="ts" setup>
+import { useSidebar } from '../ui/sidebar';
+
 const { selectedHistory, selectedTag, tags } = storeToRefs(useStore());
 
+const { isMobile, toggleSidebar } = useSidebar();
 const selectTag = (tag: string) => {
   selectedHistory.value = undefined;
   selectedTag.value = tag;
+  if (isMobile.value) toggleSidebar();
 };
 </script>
 

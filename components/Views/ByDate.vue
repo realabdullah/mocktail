@@ -1,9 +1,20 @@
 <script setup lang="ts">
-const { dateViewItems, selectedDate, selectedHistory } = storeToRefs(useStore());
+import { useSidebar } from "../ui/sidebar";
 
+const { dateViewItems, selectedDate, selectedHistory } = storeToRefs(
+  useStore()
+);
+
+const { isMobile, toggleSidebar } = useSidebar();
 const selectDate = (date: string) => {
   selectedHistory.value = undefined;
   selectedDate.value = date;
+  if (isMobile.value) toggleSidebar();
+};
+
+const selectHistory = (history: any) => {
+  selectedHistory.value = history;
+  if (isMobile.value) toggleSidebar();
 };
 </script>
 
@@ -60,7 +71,7 @@ const selectDate = (date: string) => {
           v-for="(cell, index) in item.item"
           :key="index"
           class="w-full text-left p-2 rounded-md flex items-center hover:bg-gray-100 dark:hover:bg-gray-800"
-          @click="selectedHistory = cell"
+          @click="selectHistory(cell)"
         >
           <div
             class="w-2 h-2 rounded-full mr-2"

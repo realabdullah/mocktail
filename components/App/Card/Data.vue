@@ -84,14 +84,17 @@ const onUpdateTitle = () => {
         />
       </div>
 
-      <div v-else class="flex items-center justify-between mb-4">
+      <div
+        v-else
+        class="flex items-center flex-wrap gap-y-2 justify-between mb-4"
+      >
         <div>
           <div class="flex items-center">
             <div
               class="w-3 h-3 rounded-full mr-2"
               :style="`background-color: ${entry.color}`"
             ></div>
-            <h3 class="text-xl font-semibold">{{ entry.title }}</h3>
+            <h3 class="text-xl font-semibold truncate">{{ entry.title }}</h3>
             <svg
               v-if="usage === 'saved' && entry?.starred"
               xmlns="http://www.w3.org/2000/svg"
@@ -162,14 +165,17 @@ const onUpdateTitle = () => {
           <UTabs v-model="activeTab" :items="tabs" />
         </template>
 
-        <div class="px-4 py-5 sm:px-6 overflow-auto max-h-[600px]">
-          <AppJsonRenderer v-if="activeTab === 0" :data="data" />
-          <pre
-            v-else-if="activeTab === 1"
-            class="text-sm overflow-auto p-2 bg-gray-100 dark:bg-gray-800 rounded-md"
-          >
+        <div class="overflow-hidden">
+          <div class="px-4 py-5 sm:px-6 overflow-auto max-h-[600px]">
+            <AppJsonRenderer v-if="activeTab === 0" :data="data" />
+            <pre
+              v-else-if="activeTab === 1"
+              class="text-sm overflow-auto p-2 bg-gray-100 dark:bg-gray-800 rounded-md"
+            >
             {{ JSON.stringify(data, null, 2) }}
-          </pre>
+          </pre
+            >
+          </div>
         </div>
       </UCard>
 

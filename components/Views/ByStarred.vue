@@ -1,9 +1,16 @@
 <script lang="ts" setup>
 import { formatDate } from "@/utils";
+import { useSidebar } from "../ui/sidebar";
 
-const { starredItems, showStarredItems, selectedHistory } = storeToRefs(
+const { starredItems, selectedHistory } = storeToRefs(
   useStore()
 );
+
+const { isMobile, toggleSidebar } = useSidebar();
+const selectHistory = (history: any) => {
+  selectedHistory.value = history;
+  if (isMobile.value) toggleSidebar();
+};
 </script>
 
 <template>
@@ -17,7 +24,7 @@ const { starredItems, showStarredItems, selectedHistory } = storeToRefs(
           ? 'bg-white dark:bg-gray-800 shadow-sm'
           : '',
       ]"
-      @click="selectedHistory = starred"
+      @click="selectHistory(starred)"
     >
       <div class="flex items-center">
         <div

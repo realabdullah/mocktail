@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-const { selectedItem, selectedTag, tags } = storeToRefs(useStore());
+const { selectedHistory, selectedTag, tags } = storeToRefs(useStore());
 
 const selectTag = (tag: string) => {
-  selectedItem.value = undefined;
+  selectedHistory.value = undefined;
   selectedTag.value = tag;
 };
 </script>

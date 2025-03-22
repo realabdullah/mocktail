@@ -4,22 +4,14 @@ const {
   showStarredItems,
   selectedTag,
   searchQuery,
-  selectedItem,
+  selectedHistory,
 } = storeToRefs(useStore());
-
-const formattedSelectedDate = computed(() => {
-  const [year, month] = selectedDate.value.split("-").map(Number);
-  const monthName = new Date(year, month - 1).toLocaleString("default", {
-    month: "long",
-  });
-  return `${monthName} ${year}`;
-});
 
 const backToGenerator = () => {
   selectedDate.value = "";
   showStarredItems.value = false;
   selectedTag.value = "";
-  selectedItem.value = undefined;
+  selectedHistory.value = undefined;
 };
 </script>
 
@@ -31,11 +23,11 @@ const backToGenerator = () => {
       <SidebarTrigger />
       <h2 class="text-lg font-medium">
         <template v-if="searchQuery"> Search: {{ searchQuery }} </template>
-        <template v-else-if="selectedItem">
-          {{ selectedItem.title || "View Item" }}
+        <template v-else-if="selectedHistory">
+          {{ selectedHistory.title || "View Item" }}
         </template>
         <template v-else-if="selectedDate">
-          {{ formattedSelectedDate }}
+          {{ selectedDate }}
         </template>
         <template v-else-if="selectedTag"> Tagged: {{ selectedTag }} </template>
         <template v-else-if="showStarredItems">Starred Items</template>
@@ -45,7 +37,7 @@ const backToGenerator = () => {
 
     <div class="flex items-center space-x-2">
       <UButton
-        v-if="selectedDate || selectedTag || showStarredItems || selectedItem || searchQuery"
+        v-if="selectedDate || selectedTag || showStarredItems || selectedHistory || searchQuery"
         variant="outline"
         label="Back to Generator"
         color="gray"

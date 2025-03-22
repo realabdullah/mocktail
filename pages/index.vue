@@ -4,8 +4,9 @@ const {
   selectedDate,
   showStarredItems,
   selectedTag,
-  selectedItem,
+  selectedHistory,
 } = storeToRefs(useStore());
+const { fetchHistories, fetchTrash } = useHistory();
 
 const isAppGeneratorVisible = computed(
   () =>
@@ -13,8 +14,13 @@ const isAppGeneratorVisible = computed(
     !selectedDate.value &&
     !showStarredItems.value &&
     !selectedTag.value &&
-    !selectedItem.value
+    !selectedHistory.value
 );
+
+onMounted(() => {
+  fetchHistories();
+  fetchTrash();
+});
 </script>
 
 <template>

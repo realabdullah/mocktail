@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { formatDate } from "@/utils";
 
-const { starredItems, showStarredItems, selectedItem } = storeToRefs(
+const { starredItems, showStarredItems, selectedHistory } = storeToRefs(
   useStore()
 );
 </script>
@@ -13,11 +13,11 @@ const { starredItems, showStarredItems, selectedItem } = storeToRefs(
       :key="index"
       class="w-full flex flex-col items-start p-2 rounded-md text-base text-gray-300 hover:bg-white dark:hover:bg-gray-800"
       :class="[
-        selectedItem?.id === starred.id
+        selectedHistory?.id === starred.id
           ? 'bg-white dark:bg-gray-800 shadow-sm'
           : '',
       ]"
-      @click="selectedItem = starred"
+      @click="selectedHistory = starred"
     >
       <div class="flex items-center">
         <div

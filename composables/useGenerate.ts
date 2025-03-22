@@ -31,12 +31,9 @@ export const useGenerate = () => {
       if (data?.response) {
         const parsed = refineResponse(data.response) as IHistory;
         const timestamp = Date.now();
-        generatedData.value = {
-          ...parsed,
-          id: crypto.randomUUID(),
-          timestamp,
-          starred: false,
-        };
+        const newEntry = { ...parsed, timestamp, starred: false };
+        generatedData.value = newEntry;
+        useHistory().addHistory(newEntry);
       } else {
         const { title, description } = parseErrorResponse(
           data.error as ErrorResponse

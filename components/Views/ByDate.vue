@@ -1,8 +1,8 @@
 <script setup lang="ts">
-const { dateViewItems, selectedDate, selectedItem } = storeToRefs(useStore());
+const { dateViewItems, selectedDate, selectedHistory } = storeToRefs(useStore());
 
 const selectDate = (date: string) => {
-  selectedItem.value = undefined;
+  selectedHistory.value = undefined;
   selectedDate.value = date;
 };
 </script>
@@ -60,7 +60,7 @@ const selectDate = (date: string) => {
           v-for="(cell, index) in item.item"
           :key="index"
           class="w-full text-left p-2 rounded-md flex items-center hover:bg-gray-100 dark:hover:bg-gray-800"
-          @click="selectedItem = cell"
+          @click="selectedHistory = cell"
         >
           <div
             class="w-2 h-2 rounded-full mr-2"

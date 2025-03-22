@@ -7,5 +7,7 @@
       <AppHeader />
       <NuxtPage />
     </main>
+
+    <UNotifications />
   </SidebarProvider>
 </template>

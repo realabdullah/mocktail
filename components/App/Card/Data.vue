@@ -7,43 +7,56 @@ const props = defineProps<{
   usage: "saved" | "generated";
 }>();
 
+const isDownloading = ref(false);
+const activeTab = ref(0);
+const isCopied = ref(false);
 const editingId = ref("");
-const editingTitle = ref(props.entry?.title || "");
+const editingTitle = ref("");
 
 const data = computed(() => refineResponse(props.entry.data) as IHistory);
 
-const activeTab = ref(0);
 const tabs = [
   { label: "Tree View", slot: "tree-view" },
   { label: "Raw JSON", slot: "raw-json" },
 ];
 
-const isCopied = ref(false);
 const copyGeneratedData = () => {
-  navigator.clipboard.writeText(JSON.stringify(data.value.data, null, 2));
+  navigator.clipboard.writeText(JSON.stringify(data.value, null, 2));
   isCopied.value = true;
   setTimeout(() => {
     isCopied.value = false;
   }, 1000);
 };
 
-const isDownloading = ref(false);
 const downloadGeneratedData = () => {
   try {
     isDownloading.value = true;
-    const blob = new Blob([JSON.stringify(data.value.data, null, 2)], {
+    const blob = new Blob([JSON.stringify(data.value, null, 2)], {
       type: "application/json",
     });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `${data.value.title}.json`;
+    a.download = `${props.entry.title}.json`;
     a.click();
     URL.revokeObjectURL(url);
   } catch (error) {
   } finally {
     isDownloading.value = false;
   }
+};
+
+const { updateTitle, toggleStar, moveHistoryToTrash } = useHistory();
+
+const setEditing = () => {
+  editingId.value = props.entry.id;
+  editingTitle.value = props.entry.title;
+};
+
+const onUpdateTitle = () => {
+  updateTitle(props.entry.id, editingTitle.value);
+  editingId.value = "";
+  editingTitle.value = "";
 };
 </script>
 
@@ -60,6 +73,7 @@ const downloadGeneratedData = () => {
           color="gray"
           icon="i-heroicons-server"
           size="xs"
+          @click="onUpdateTitle"
         />
         <UButton
           variant="ghost"
@@ -124,19 +138,21 @@ const downloadGeneratedData = () => {
             color="gray"
             icon="i-heroicons-pencil"
             size="xs"
-            @click="editingId = entry.id"
+            @click="setEditing"
           />
           <UButton
             variant="ghost"
             color="gray"
             icon="i-heroicons-star"
             size="xs"
+            @click="toggleStar(entry.id)"
           />
           <UButton
             variant="ghost"
             color="gray"
             icon="i-heroicons-trash"
             size="xs"
+            @click="moveHistoryToTrash(entry.id)"
           />
         </div>
       </div>

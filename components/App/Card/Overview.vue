@@ -3,14 +3,14 @@ import { formatDate } from "@/utils";
 import type { IHistory } from "@/types";
 
 defineProps<{ item: IHistory }>();
-const selectedItem = defineModel<IHistory>();
+const selectedHistory = defineModel<IHistory>();
 </script>
 
 <template>
   <UCard
     class="relative cursor-pointer"
     :ui="{ body: { padding: 'p-0 sm:p-0' } }"
-    @click="selectedItem = item"
+    @click="selectedHistory = item"
   >
     <div
       class="absolute top-0 left-0 w-full h-1 rounded-t-lg"

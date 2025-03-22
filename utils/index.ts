@@ -115,3 +115,11 @@ export const getTypeColor = (type: JsonValueType) => {
       return "";
   }
 };
+
+export const formatTimestamp = (timestamp: number) => {
+  const date = new Date(timestamp);
+  const month = date.toLocaleString("default", { month: "long" });
+  const day = date.getDate();
+  const year = date.getFullYear();
+  return `${month} ${day}, ${year}`;
+}

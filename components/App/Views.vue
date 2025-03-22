@@ -1,11 +1,10 @@
 <script lang="ts" setup>
 const {
-  formattedSelectedDate,
   selectedDate,
   showStarredItems,
   starredItems,
   selectedTag,
-  selectedItem,
+  selectedHistory,
   searchQuery,
   filteredItems,
 } = storeToRefs(useStore());
@@ -17,8 +16,8 @@ const items = computed(() =>
 
 <template>
   <div class="p-1 sm:p-6">
-    <div v-if="selectedItem" class="max-w-3xl mx-auto">
-      <AppCardData :entry="selectedItem" usage="saved" />
+    <div v-if="selectedHistory" class="max-w-3xl mx-auto">
+      <AppCardData :entry="selectedHistory" usage="saved" />
     </div>
 
     <div
@@ -26,14 +25,14 @@ const items = computed(() =>
         searchQuery ||
         selectedDate ||
         selectedTag ||
-        (showStarredItems && !selectedItem)
+        (showStarredItems && !selectedHistory)
       "
     >
       <div class="mb-4 flex items-center justify-between">
         <h3 class="text-xl font-semibold">
           <template v-if="searchQuery"> Search: {{ searchQuery }} </template>
           <template v-else-if="selectedDate">
-            {{ formattedSelectedDate }}
+            {{ selectedDate }}
           </template>
           <template v-else-if="selectedTag">
             Tagged: {{ selectedTag }}
@@ -51,7 +50,7 @@ const items = computed(() =>
 
       <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         <template v-for="(item, index) in items" :key="index">
-          <AppCardOverview v-model="selectedItem" :item />
+          <AppCardOverview v-model="selectedHistory" :item />
         </template>
       </div>
     </div>

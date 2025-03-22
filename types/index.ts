@@ -44,6 +44,7 @@ export interface IHistory {
   color: string;
   starred: boolean;
   tags: string[];
+  deletedAt?: number;
 }
 
 export type JsonValueType =

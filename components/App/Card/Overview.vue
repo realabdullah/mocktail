@@ -57,9 +57,8 @@ const selectedHistory = defineModel<IHistory>();
           <span :style="`backgroundColor: ${item.color}`">JSON</span>
         </div>
         <pre class="p-3 text-xs font-mono overflow-hidden max-h-20 truncate">
-                {{ item.data }}
-                </pre
-        >
+          {{ item.data }}
+        </pre>
       </UCard>
 
       <div class="flex flex-wrap gap-1 mt-3">

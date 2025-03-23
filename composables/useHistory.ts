@@ -95,6 +95,35 @@ export const useHistory = () => {
     }
   };
 
+  const batchRestoreFromTrash = async (ids: string[]) => {
+    try {
+      await db.transaction("rw", db.trash, db.history, async () => {
+        const items = await db.trash.bulkGet(ids);
+        if (!items.length) {
+          throw new Error("Trash items not found.");
+        }
+        await db.history.bulkAdd(
+          items
+            .filter((item): item is IHistory => !!item)
+            .map((item) => ({ ...item, deletedAt: undefined }))
+        );
+        await db.trash.bulkDelete(ids);
+      });
+      await fetchHistories();
+      await fetchTrash();
+      showToast(
+        `${ids.length} histor${ids.length > 1 ? "ies" : "y"} restored.`
+      );
+    } catch (err: any) {
+      showToast(
+        `Failed to restore ${ids.length} histor${
+          ids.length > 1 ? "ies" : "y"
+        }.`,
+        "error"
+      );
+    }
+  };
+
   const permanentlyDeleteHistory = async (id: string) => {
     try {
       await db.trash.delete(id);
@@ -102,6 +131,16 @@ export const useHistory = () => {
       showToast("Trash item permanently deleted.");
     } catch (err: any) {
       showToast("Failed to permanently delete trash item.", "error");
+    }
+  };
+
+  const batchPermanentlyDeleteHistory = async (ids: string[]) => {
+    try {
+      await db.trash.bulkDelete(ids);
+      await fetchTrash();
+      showToast(`${ids.length} trash items permanently deleted.`);
+    } catch (err: any) {
+      showToast("Failed to permanently delete trash items.", "error");
     }
   };
 
@@ -135,6 +174,16 @@ export const useHistory = () => {
     }
   };
 
+  const clearTrash = async () => {
+    try {
+      await db.trash.clear();
+      await fetchTrash();
+      showToast("Trash cleared successfully.");
+    } catch (err: any) {
+      showToast("Failed to clear trash.", "error");
+    }
+  };
+
   return {
     loading,
     error,
@@ -148,5 +197,8 @@ export const useHistory = () => {
     getHistoryById,
     toggleStar,
     updateTitle,
+    clearTrash,
+    batchRestoreFromTrash,
+    batchPermanentlyDeleteHistory,
   };
 };

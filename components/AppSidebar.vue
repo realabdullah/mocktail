@@ -29,6 +29,7 @@ const {
   selectedTag,
   selectedHistory,
 } = storeToRefs(useStore());
+
 watch(
   () => activeTab.value,
   (val) => {
@@ -96,6 +97,18 @@ watch(
       </SidebarGroup>
       <SidebarGroup />
     </SidebarContent>
-    <SidebarFooter />
+    <SidebarFooter>
+      <div
+        class="py-4 border-t border-gray-200 dark:border-gray-700 flex items-center justify-between"
+      >
+        <UButton
+          to="/trash"
+          label="Trash"
+          variant="ghost"
+          icon="i-heroicons-trash"
+          color="gray"
+        />
+      </div>
+    </SidebarFooter>
   </Sidebar>
 </template>

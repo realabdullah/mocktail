@@ -137,7 +137,7 @@ onMounted(() => fetchTrash());
         </UDropdown>
       </div>
 
-      <div class="mt-6 flex items-center justify-between gap-3">
+      <div class="mt-6 flex flex-wrap items-center justify-between gap-3">
         <UCheckbox
           :model-value="
             filteredTrash.length
@@ -150,7 +150,10 @@ onMounted(() => fetchTrash());
           @update:model-value="selectAll"
         />
 
-        <div v-if="selectedIds.length > 0" class="flex items-center gap-2">
+        <div
+          v-if="selectedIds.length > 0"
+          class="flex flex-wrap items-center gap-2"
+        >
           <UButton
             label="Restore Selected"
             icon="i-heroicons-arrow-path"

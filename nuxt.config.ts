@@ -20,10 +20,9 @@ export default defineNuxtConfig({
       ],
     },
   },
-  css: ["~/assets/css/main.css"],
+  css: ["~/assets/css/main.css", "~/assets/css/fonts.css"],
   modules: [
     "@nuxt/ui",
-    "@nuxt/fonts",
     "shadcn-nuxt",
     "@nuxtjs/tailwindcss",
     "@nuxtjs/color-mode",
@@ -32,7 +31,6 @@ export default defineNuxtConfig({
   ],
   compatibilityDate: "2024-11-01",
   devtools: { enabled: true },
-  fonts: { families: [{ name: "Inter", provider: "google", global: true }] },
   shadcn: { prefix: "", componentDir: "./components/ui" },
   tailwindcss: {
     exposeConfig: true,

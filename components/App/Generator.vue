@@ -41,6 +41,7 @@ const {
 
 <style>
 textarea {
-  font-family: "Menlo", "Monaco", "Courier New", monospace;
+  font-family: "Geist Mono", monospace;
+  font-weight: 400;
 }
 </style>

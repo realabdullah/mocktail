@@ -11,14 +11,32 @@
   },
   "dependencies": {
     "@google/generative-ai": "^0.21.0",
-    "@nuxt/fonts": "0.10.3",
     "@nuxt/ui": "2.21.0",
+    "@nuxtjs/tailwindcss": "6.13.2",
+    "@pinia/nuxt": "0.10.1",
+    "@vueuse/core": "^13.0.0",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "dexie": "^4.0.11",
+    "lucide-vue-next": "^0.483.0",
+    "motion-v": "^0.13.1",
     "nuxt": "^3.15.4",
     "openai": "^4.82.0",
+    "pinia": "^3.0.1",
+    "reka-ui": "^2.1.0",
+    "shadcn-nuxt": "1.0.3",
+    "tailwind-merge": "^3.0.2",
+    "tailwindcss-animate": "^1.0.7",
     "typescript": "^5.7.3",
+    "uuid": "^11.1.0",
     "vue": "latest",
     "vue-router": "latest",
     "zod": "^3.24.1"
   },
-  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
+  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e",
+  "devDependencies": {
+    "@iconify-json/radix-icons": "^1.2.2",
+    "@iconify/vue": "^4.3.0",
+    "@nuxtjs/color-mode": "^3.5.2"
+  }
 }

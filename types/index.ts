@@ -35,3 +35,30 @@ export type ErrorResponse = {
   errorDetails?: ErrorDetail[];
   headers?: Record<string, string>;
 };
+
+export interface IHistory {
+  id: string;
+  title: string;
+  data: string;
+  timestamp: number;
+  color: string;
+  starred: boolean;
+  tags: string[];
+  deletedAt?: number;
+}
+
+export type JsonValueType =
+  | "string"
+  | "number"
+  | "boolean"
+  | "null"
+  | "object"
+  | "array";
+
+export interface JsonViewerProps {
+  data: any;
+  rootLabel?: string;
+  level?: number;
+  path?: string;
+  expandAll?: boolean;
+}
